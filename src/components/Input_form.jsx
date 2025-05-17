@@ -1,50 +1,69 @@
-const Input_form = () => {
+import React, { useState } from 'react';
+
+const Input_form = ({ onAddContact, onClose }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    number: '',
+    location: '' // New Field
+  });
+
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAddContact(formData);
+    setFormData({ name: '', email: '', number: '', location: '' });
+  };
+
   return (
-    <form action="#" className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto space-y-4">
-      <div className="flex flex-col">
-        <label htmlFor="name" className="mb-1 text-gray-700 font-medium">Name:</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          placeholder="Enter Your Name"
-          required
-          className="bg-gray-100 border border-gray-300 rounded-md h-12 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-        />
+    <div className="fixed inset-0 bg-black bg-opacity-25 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h2 className="text-xl font-bold mb-4">Add Contact</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Name"
+            className="w-full border px-4 py-2 rounded"
+            required
+          />
+          <input
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            className="w-full border px-4 py-2 rounded"
+            type="email"
+            required
+          />
+          <input
+            name="number"
+            value={formData.number}
+            onChange={handleChange}
+            placeholder="Phone Number"
+            className="w-full border px-4 py-2 rounded"
+            required
+          />
+          <input
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            placeholder="Location"
+            className="w-full border px-4 py-2 rounded"
+            required
+          />
+          <div className="flex justify-end gap-2">
+            <button type="button" onClick={onClose} className="text-gray-500">Cancel</button>
+            <button type="submit" className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600">Add</button>
+          </div>
+        </form>
       </div>
+    </div>
+  );
+};
 
-      <div className="flex flex-col">
-        <label htmlFor="email" className="mb-1 text-gray-700 font-medium">Email:</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Enter Your  Email"
-          required
-          className="bg-gray-100 border border-gray-300 rounded-md h-12 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="phone" className="mb-1 text-gray-700 font-medium">Phone:</label>
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Enter phone number"
-          id="phone"
-          required
-          className="bg-gray-100 border border-gray-300 rounded-md h-12 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-        />
-      </div>
-
-      <button
-        type="submit"
-        className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-md transition"
-      >
-        Submit
-      </button>
-    </form>
-  )
-}
-
-export default Input_form
+export default Input_form;
